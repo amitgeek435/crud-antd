@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Table } from "antd";
-// import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
   Checkbox,
@@ -11,10 +10,10 @@ import {
   Input,
   Row,
   Select,
-  //   Upload,
   Space,
   Tag,
 } from "antd";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, delUser, editUser } from "../reducer/setUserSlice";
 const { Header, Content } = Layout;
@@ -29,16 +28,6 @@ const formItemLayout = {
   },
 };
 
-// const normFile = (e) => {
-//   console.log("Upload event:", e);
-
-//   if (Array.isArray(e)) {
-//     return e;
-//   }
-
-//   return e?.fileList;
-// };
-
 const UserForm = () => {
   const userSel = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
@@ -52,6 +41,18 @@ const UserForm = () => {
   }, [userSel]);
 
   const onFinish = (values) => {
+    const useryear = values["year"];
+    const usermonth = values["month"];
+    const curYear = new Date().getFullYear();
+    const curMonth = new Date().getMonth();
+    var yearAge = curYear - useryear;
+    if (curMonth >= usermonth) var monthAge = curMonth - usermonth;
+    else {
+      yearAge--;
+      monthAge = 12 + curMonth - usermonth;
+    }
+    let newAge = { yearAge, monthAge };
+    values.age = newAge;
     if (iseditUser) {
       dispatch(
         editUser({
@@ -79,7 +80,6 @@ const UserForm = () => {
   };
 
   const editUserhandle = (record, index) => {
-    console.log(record);
     seteditUser(true);
     seteditUserIndex(index);
     form.setFieldsValue(record);
@@ -98,7 +98,8 @@ const UserForm = () => {
               {...formItemLayout}
               onFinish={onFinish}
               initialValues={{
-                age: 16,
+                year: "",
+                month: "",
                 hobby: [],
                 gender: "male",
               }}
@@ -149,16 +150,43 @@ const UserForm = () => {
               </Form.Item>
 
               <Form.Item
-                label="Age"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your Age!",
-                  },
-                ]}
+                label="BirthDate"
+                style={{
+                  marginBottom: 0,
+                }}
               >
-                <Form.Item name="age" noStyle>
-                  <InputNumber min={1} max={100} />
+                <Form.Item
+                  name="year"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your year!",
+                    },
+                  ]}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(10% - 8px)",
+                  }}
+                  help="Enter Dob Year"
+                >
+                  <InputNumber min={1900} max={new Date().getFullYear()} />
+                </Form.Item>
+                <Form.Item
+                  name="month"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your month!",
+                    },
+                  ]}
+                  style={{
+                    display: "inline-block",
+                    width: "calc(50% - 8px)",
+                    margin: "0 8px",
+                  }}
+                  help="Enter Dob Month"
+                >
+                  <InputNumber min={1} max={12} />
                 </Form.Item>
               </Form.Item>
 
@@ -237,18 +265,6 @@ const UserForm = () => {
                 </Checkbox.Group>
               </Form.Item>
 
-              {/* <Form.Item
-                name="userprofile"
-                label="Upload"
-                valuePropName="fileList"
-                getValueFromEvent={normFile}
-                extra="Chose your profle pic.*"
-              >
-                <Upload name="logo" action="/upload.do" listType="picture">
-                  <Button icon={<UploadOutlined />}>Click to upload</Button>
-                </Upload>
-              </Form.Item> */}
-
               <Form.Item
                 wrapperCol={{
                   span: 12,
@@ -271,7 +287,18 @@ const UserForm = () => {
               <Column title="Email" dataIndex="useremail" key="email" />
               <Column title="Country" dataIndex="country" key="country" />
 
-              <Column title="Age" dataIndex="age" key="age" />
+              <Column
+                title="Age"
+                dataIndex="age"
+                key="age"
+                render={(age) => {
+                  return (
+                    <Tag color="purple">
+                      {age.yearAge} years {age.monthAge} months
+                    </Tag>
+                  );
+                }}
+              />
               <Column title="Gender" dataIndex="gender" key="gender" />
               <Column
                 title="Hobby"
