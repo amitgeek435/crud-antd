@@ -1,0 +1,8 @@
+.menubar{
+    display: flex;
+    background-color: blue;
+}
+.cartLabel{
+    /* background-color: aliceblue; */
+    display: flex;
+}

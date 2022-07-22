@@ -1,13 +1,18 @@
-// src/store.js
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import user from "./reducer/setUserSlice";
+// import { applyMiddleware } from "@reduxjs/toolkit";
+import logger from "redux-logger";
+import thunk from "redux-thunk";
+import user from "./reducer/SetUserSlice";
+import fetchProducts from "./reducer/FethchProductsSlice";
 
 const RootReducer = combineReducers({
   user,
+  getProducts: fetchProducts,
 });
 
-export const store = configureStore({
+const store = configureStore({
   reducer: RootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 export default store;

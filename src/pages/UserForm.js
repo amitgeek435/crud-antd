@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Table } from "antd";
+import MainNavBar from "./MainNavBar";
 import {
   Button,
   Checkbox,
@@ -15,7 +16,7 @@ import {
 } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, delUser, editUser } from "../reducer/setUserSlice";
+import { setUser, delUser, editUser } from "../reducer/SetUserSlice";
 const { Header, Content } = Layout;
 const { Option } = Select;
 const { Column } = Table;
@@ -61,6 +62,7 @@ const UserForm = () => {
         })
       );
       seteditUser(false);
+      seteditUserIndex("");
     } else {
       dispatch(
         setUser({
@@ -86,10 +88,12 @@ const UserForm = () => {
   };
   return (
     <Layout>
-      <Header>
+      <MainNavBar />
+      {/* <Header>
         <h1 style={{ color: "white" }}>User Form</h1>
-      </Header>
-      <Content style={{ marginTop: "20px", height: "91vh" }}>
+      </Header> */}
+      <Content style={{ marginTop: "10px", height: "91vh" }}>
+        <h1 style={{ color: "black", textAlign: "center" }}>User Form</h1>
         <Row justify="center">
           <Col xs={22} md={22} lg={22} xl={22} xxl={22}>
             <Form
@@ -165,7 +169,7 @@ const UserForm = () => {
                   ]}
                   style={{
                     display: "inline-block",
-                    width: "calc(10% - 8px)",
+                    width: "calc(12% - 8px)",
                   }}
                   help="Enter Dob Year"
                 >
@@ -276,6 +280,7 @@ const UserForm = () => {
                 </Button>
               </Form.Item>
             </Form>
+
             <Table dataSource={userData} key={new Date().getTime().toString()}>
               <Column
                 title="Id"

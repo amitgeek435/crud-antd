@@ -1,8 +1,12 @@
 import "./App.css";
-import UserForm from "./pages/UserForm";
+import AllRoute from "./route/AllRoute";
 
 function App() {
-  return <UserForm />;
+  return (
+    <>
+      <AllRoute />
+    </>
+  );
 }
 
 export default App;
