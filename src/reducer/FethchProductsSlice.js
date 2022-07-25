@@ -2,13 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const getProducts = createSlice({
   name: "products",
-  initialState: [],
+  initialState: {
+    allProductsData: [],
+    allCategoryData: [],
+  },
   reducers: {
     getAllProducts: (state, action) => {
       const { data } = action.payload;
-      return { ...state, data };
+      return { ...state, allProductsData: data };
+    },
+    getAllCategories: (state, action) => {
+      const { data } = action.payload;
+      return { ...state, allCategoryData: data };
     },
   },
 });
-export const { getAllProducts } = getProducts.actions;
+export const { getAllProducts, getAllCategories } = getProducts.actions;
 export default getProducts.reducer;
