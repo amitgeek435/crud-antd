@@ -10,6 +10,7 @@ export const CartManage = createSlice({
     },
     removeToCart: (state, action) => {
       const index = action.payload;
+      state.cartData.splice(index, 1);
       console.log(index);
     },
   },

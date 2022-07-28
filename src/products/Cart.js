@@ -18,16 +18,8 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const deleteCartProduct = (id) => {
-    const newCartData = cartData;
-    for (let index = 0; index < cartData.length; index++) {
-      if (cartData[index].products.id === id) {
-        const ele = cartData[index];
-        const inrObj = ele.products;
-      }
-    }
-    console.log(newCartData);
-    // dispatch(removeToCart({ data: id }));
+  const deleteCartProduct = (index) => {
+    dispatch(removeToCart(index));
   };
 
   return (
@@ -49,7 +41,7 @@ const Cart = () => {
                       />,
                       <DeleteOutlined
                         key={data.id}
-                        onClick={() => deleteCartProduct(data.id)}
+                        onClick={() => deleteCartProduct(index)}
                       />,
                     ]}
                     hoverable
